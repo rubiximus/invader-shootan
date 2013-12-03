@@ -4,6 +4,8 @@ Invader Shootan v0.6
 Description:
 This game is a shameless clone of some arcade game most people probably haven't heard of. Alien invaders are attacking and you need to move your laser cannon left and right and shoot those squiddy things down. That's about it. You'll probably lose if the aliens reach the bottom of the screen or if you run out of lives.
 
+Invader Shootan began as a final project for CS242 in spring 2011. The goal was to get more practice with Python and learn the Pygame library. I am now working to make it a more complete game.
+
 
 Controls:
 left arrow - move left
@@ -12,7 +14,7 @@ Z, space, l.ctrl - shoot
 
 
 Installation:
-Extract all files to one directory, maintaining archive heirarchy (there needs to be a graphics directory). The game can be run on Windows machines with game.exe. In other systems, run game.py in Python.
+Extract all files to one directory, maintaining archive heirarchy (there needs to be a graphics directory). The game can be run on Windows machines with game.exe if provided. In other systems, run game.py in Python.
 
 
 Dependencies:
