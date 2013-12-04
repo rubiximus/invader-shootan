@@ -17,6 +17,7 @@ from pygame.font import Font, get_default_font
 from pygame.sprite import Sprite, Group
 
 from options import *
+from vector import *
 from player import Player
 from bullet import Bullet
 from enemy_group import EnemyGroup
@@ -56,7 +57,7 @@ def shoot():
     """Creates a new friendly bullet at the player's location if too many don't exist already
     """
     if len(good_bullets) < max_player_bullets:
-        new_bullet = Bullet(window_size, bullet_filename, -bullet_speed, player.rect.center)
+        new_bullet = Bullet(window_size, bullet_filename, bullet_speed, player.rect.center, NORTH)
         new_bullet.add(good_bullets)
             
 

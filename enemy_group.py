@@ -13,6 +13,7 @@ import pygame
 from pygame.sprite import Group
 
 from options import *
+from vector import SOUTH
 from enemy import Enemy
 from bullet import Bullet
 
@@ -154,7 +155,7 @@ class EnemyGroup(Group):
         col = Group.sprites(self)[r].col
         shooter = self.bottom_sprite(col)
         
-        new_bullet = Bullet(window_size, bullet_filename, bullet_speed, shooter.rect.center)
+        new_bullet = Bullet(window_size, bullet_filename, bullet_speed, shooter.rect.center, SOUTH)
         new_bullet.add(self.bullets)
     
     
