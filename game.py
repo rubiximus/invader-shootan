@@ -14,7 +14,7 @@ from pygame.locals import *
 from pygame.time import Clock
 from pygame import key
 from pygame.font import Font, get_default_font
-from pygame.sprite import Sprite, Group
+from pygame.sprite import Sprite, Group, collide_mask, spritecollide, groupcollide
 
 from options import *
 from vector import *
@@ -69,28 +69,20 @@ def collisions():
     global lives, score, player
     
     #player with enemy bullets
-    for current_bullet in evil_bullets.sprites():
-        if pygame.sprite.collide_mask(player, current_bullet):
-            current_bullet.kill()
-            lives -= 1
-            player = Player(window_size, ship_filename, ship_speed)
+    if spritecollide(player, evil_bullets, True, collide_mask):
+        lives -= 1
+        player = Player(window_size, ship_filename, ship_speed)
             
     #enemies with player bullets
-    for current_enemy in enemy_wave.sprites():
-        for current_bullet in good_bullets.sprites():
-            if pygame.sprite.collide_mask(current_enemy, current_bullet):
-                current_enemy.kill()
-                current_bullet.kill()
-                score += enemy_kill_pts
+    #currently rather lazy because there's only ever one player bullet
+    if groupcollide(good_bullets, enemy_wave, True, True, collide_mask):
+        score += enemy_kill_pts
                 
     #enemy bullets with player bullets
-    for current_up in good_bullets.sprites():
-        for current_down in evil_bullets.sprites():
-            if pygame.sprite.collide_mask(current_up, current_down):
-                current_up.kill()
-                current_down.kill()
-                score += bullet_kill_pts
-    
+    #currently rather lazy because there's only ever one player bullet
+    if groupcollide(good_bullets, evil_bullets, True, True, collide_mask):
+        score += bullet_kill_pts
+        
  
 def check_gameover():
     """Checks for gameover conditions and enters gameover loop
