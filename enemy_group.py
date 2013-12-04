@@ -3,7 +3,8 @@ Invader Shootan v0.6
 Created by Andrew Otto 4/19/2011
 
 enemy_group.py
-Contains the EnemyGroup class which represents the enemy formation
+Contains the EnemyGroup class which represents the enemy formation,
+as well as the Enemy class which is an individual enemy sprite
 """
 
 
@@ -12,9 +13,9 @@ import random
 import pygame
 from pygame.sprite import Group
 
+from asprite import ASprite
 from options import *
 from vector import SOUTH
-from enemy import Enemy
 from bullet import Bullet
 
 class EnemyGroup(Group):
@@ -87,7 +88,7 @@ class EnemyGroup(Group):
             self.move_delay_step = 0
             movement_vector = self.check_vector()
             for current_sprite in Group.sprites(self):
-                current_sprite.move(*movement_vector)
+                current_sprite.move(movement_vector)
 
         self.shoot_delay_step += 1
         if self.shoot_delay_step == self.shoot_delay:
@@ -189,11 +190,41 @@ class EnemyGroup(Group):
     def remove(self, *sprites):
         """Removes as normal but also updates the formation array"""
         
+        Group.remove(self, *sprites)
+        
         for current_sprite in sprites:
-            Group.remove(self, current_sprite)
             row = current_sprite.row
             col = current_sprite.col
             self.formation[col][row] = None
             if col == self.rightmost_col or col == self.leftmost_col:
                 self.adjust_borders()
+                
+                
+
+class Enemy(ASprite):
+    """The Enemy sprite is essentially a placeholder
+    All actual behavior for the sprites is determined in the EnemyGroup class
+    """
+    
+    def __init__(self, window_size, sprite_filename, speed, x, y):
+        """Creates the enemy and places in the default upper left position
+        window_size is a tuple with the window dimensions (width, height)
+        sprite_filename is the sprite for the ship
+        speed is the number of pixels it can move at once
+        x, y are the sprite's column and row (resp.) in the formation
+        """
+        
+        ASprite.__init__(self, sprite_filename, speed)
+        self.window_size = window_size
+        self.col = x
+        self.row = y
+        
+    
+    def kill(self):
+        """Overridden kill function
+        just calls the EnemyGroup function that handles proper removal
+        """
+        
+        for current_group in self.groups():
+            current_group.remove(self)
                 

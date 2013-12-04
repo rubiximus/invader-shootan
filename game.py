@@ -21,7 +21,6 @@ from vector import *
 from player import Player
 from bullet import Bullet
 from enemy_group import EnemyGroup
-from enemy import Enemy
 
 #initialize global sprites and groups -- player and enemy_wave are placeholders
 #Sprite groups: all_sprites contains all sprites to draw
