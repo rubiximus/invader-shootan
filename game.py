@@ -45,9 +45,9 @@ def keyboard():
     if key_states[K_ESCAPE]:
         sys.exit()
     if key_states[K_LEFT]:
-        player.move(-1, 0)
+        player.move(WEST)
     elif key_states[K_RIGHT]:
-        player.move(1, 0)
+        player.move(EAST)
     if key_states[K_z] or key_states[K_SPACE] or key_states[K_LCTRL]:
         shoot()
 

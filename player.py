@@ -10,7 +10,9 @@ Contains the Player class which is the player-controlled sprite
 import pygame
 from pygame.sprite import Sprite
 
-class Player(Sprite):
+from asprite import ASprite
+
+class Player(ASprite):
     """The sprite for the player-controlled ship
     Has capability for 8-directional movement
     """
@@ -22,10 +24,8 @@ class Player(Sprite):
         speed is the number of pixels per frame that can be moved
         """
         
-        Sprite.__init__(self)
+        ASprite.__init__(self, sprite_filename, speed)
         self.window_size = window_size
-        self.image = pygame.image.load(sprite_filename).convert_alpha()
-        self.speed = speed
         
         #The ship always starts at the bottom center of the screen
         bottom_pos = window_size[1] - 10
@@ -33,21 +33,23 @@ class Player(Sprite):
         self.rect = self.image.get_rect(bottom = bottom_pos, centerx = x_pos)
  
  
-    def move(self, horizontal, vertical):
-        """Moves the ship in the specified directions unless stopped by borders
-        horizontal should be -1 to move left, 1 to move right, 0 otherwise
-        vertical should be -1 to move up, 1 to move down, 0 otherwise
-        Note: Crazy things happen if other values entered!
+    def move(self, direction):
+        """Moves the ship in the specified direction unless stopped by borders
+        direction is a vector
         """
         
-        width, height = self.window_size
-        speed = self.speed
-        next_left = self.rect.left + horizontal * speed
-        next_right = next_left + self.rect.width
-        next_top = self.rect.top + vertical * speed
-        next_bottom = next_top + self.rect.height
+        ASprite.move(self, direction)
         
-        if next_left >= 0 and next_right <= width:
-            self.rect = self.rect.move(horizontal * speed, 0)
-        if next_top >= 0 and next_bottom <= height:
-            self.rect = self.rect.move(0, vertical * speed)
+        width, height = self.window_size
+        
+        #if ship is off top or bottom edges, nudge back to the edge
+        if self.rect.top < 0:
+            self.rect.top = 0
+        if self.rect.bottom > height:
+            self.rect.bottom = height
+        
+        #if ship is off left or right edges, nudge back to the edge
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > width:
+            self.rect.right = width

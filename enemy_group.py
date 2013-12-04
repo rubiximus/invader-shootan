@@ -15,7 +15,7 @@ from pygame.sprite import Group
 
 from asprite import ASprite
 from options import *
-from vector import SOUTH
+from vector import *
 from bullet import Bullet
 
 class EnemyGroup(Group):
@@ -71,7 +71,7 @@ class EnemyGroup(Group):
         self.rightmost_col = self.cols - 1
         self.move_delay_step = 0        #counts the frames between moves
         self.shoot_delay_step = 0       #counts the frames between shots
-        self.current_vector = (1, 0)    #the wave always starts by moving right
+        self.current_vector = EAST    #the wave always starts by moving right
         
     
     def update(self):
@@ -103,18 +103,18 @@ class EnemyGroup(Group):
         """
         
         #returns proper vector for when formation is moving right
-        if self.current_vector == (1, 0):
+        if self.current_vector == EAST:
             if self.living_sprite(self.rightmost_col).rect.right >= self.window_size[0]:
-                self.current_vector = (-1, 0)
-                return (0, 1)
+                self.current_vector = WEST
+                return SOUTH
             else:
                 return self.current_vector
         
         #returns proper vector for when formation is moving left
-        if self.current_vector == (-1, 0):
+        if self.current_vector == WEST:
             if self.living_sprite(self.leftmost_col).rect.left <= 0:
-                self.current_vector = (1, 0)
-                return (0, 1)
+                self.current_vector = EAST
+                return SOUTH
             else:
                 return self.current_vector
     
